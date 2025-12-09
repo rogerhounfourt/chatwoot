@@ -1,0 +1,87 @@
+version: '3'
+
+services:
+  rails:
+    image: chatwoot/chatwoot:latest
+    ports:
+      - '3000:3000'
+    volumes:
+      - storage:/app/storage
+    depends_on:
+      - postgres
+      - redis
+    environment:
+      - NODE_ENV=production
+      - RAILS_ENV=production
+      - INSTALLATION_ENV=docker
+      - DEFAULT_LOCALE=pt_BR
+      - FRONTEND_URL=http://localhost:3000
+      - POSTGRES_HOST=postgres
+      - POSTGRES_PORT=5432
+      - POSTGRES_USERNAME=postgres
+      - POSTGRES_PASSWORD=postgres123
+      - POSTGRES_DATABASE=chatwoot_local
+      - SECRET_KEY_BASE=1c1b008b102defba6bf6ceb7eae57ef54c991d4daab44a82d4d4138d1e3eda82710a3d5374efef88c1e2dc0a5ef1555c4ebb7cb7ffe716223cb1d12f759b8fd2
+      - REDIS_URL=redis://redis:6379
+      - REDIS_PASSWORD=redis123
+      # Branding ConectAi Automações
+      - INSTALLATION_NAME=ConectAi Automações
+      - BRAND_NAME=ConectAi Automações
+      - FORCE_SSL=false
+    entrypoint: docker/entrypoints/rails.sh
+    command: ['bundle', 'exec', 'rails', 's', '-p', '3000', '-b', '0.0.0.0']
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:3000/"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+  sidekiq:
+    image: chatwoot/chatwoot:latest
+    volumes:
+      - storage:/app/storage
+    depends_on:
+      - postgres
+      - redis
+    environment:
+      - NODE_ENV=production
+      - RAILS_ENV=production
+      - INSTALLATION_ENV=docker
+      - DEFAULT_LOCALE=pt_BR
+      - POSTGRES_HOST=postgres
+      - POSTGRES_PORT=5432
+      - POSTGRES_USERNAME=postgres
+      - POSTGRES_PASSWORD=postgres123
+      - POSTGRES_DATABASE=chatwoot_local
+      - SECRET_KEY_BASE=1c1b008b102defba6bf6ceb7eae57ef54c991d4daab44a82d4d4138d1e3eda82710a3d5374efef88c1e2dc0a5ef1555c4ebb7cb7ffe716223cb1d12f759b8fd2
+      - REDIS_URL=redis://redis:6379
+      - REDIS_PASSWORD=redis123
+    command: ['bundle', 'exec', 'sidekiq', '-C', 'config/sidekiq.yml']
+    restart: unless-stopped
+
+  postgres:
+    image: pgvector/pgvector:pg16
+    ports:
+      - '5432:5432'
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres123
+      - POSTGRES_DB=chatwoot_local
+    restart: unless-stopped
+
+  redis:
+    image: redis:7-alpine
+    command: ["redis-server", "--requirepass", "redis123"]
+    ports:
+      - '6379:6379'
+    volumes:
+      - redis_data:/data
+    restart: unless-stopped
+
+volumes:
+  storage:
+  postgres_data:
+  redis_data:
