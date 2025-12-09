@@ -122,11 +122,6 @@ MAILER_SENDER_EMAIL=atendimento@conecta.ai
 INSTALLATION_NAME="Conecta Atendimento"
 BRAND_NAME="Conecta"
 # ... (resto das vars de branding)
-
-# === Z-API (integração customizada Conecta) ===
-# Adicione suas credenciais Z-API se usar WhatsApp
-ZAPI_INSTANCE_ID=sua-instance-id
-ZAPI_TOKEN=seu-token
 ```
 
 ### Ajuste Docker Compose para Produção

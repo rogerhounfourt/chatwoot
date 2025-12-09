@@ -73,11 +73,6 @@ TERMS_URL=https://conecta.ai/termos
 PRIVACY_URL=https://conecta.ai/privacidade
 DISPLAY_MANIFEST=false
 
-# === Integração Z-API (WhatsApp) ===
-# Adicione suas credenciais Z-API aqui
-ZAPI_INSTANCE_ID=sua-instance-id
-ZAPI_TOKEN=seu-token
-
 # === Storage (opcional - S3/CloudFlare R2) ===
 ACTIVE_STORAGE_SERVICE=local
 # Para S3/R2, descomentar:
