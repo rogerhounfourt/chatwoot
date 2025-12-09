@@ -1,14 +1,14 @@
-# Deploy Chatwoot Fazer.ai no Coolify
+# Deploy Chatwoot Conecta no Coolify
 
-Guia rápido para deployar o fork customizado da Fazer.ai usando Coolify.
+Guia rápido para deployar o fork customizado da Conecta usando Coolify.
 
 ---
 
 ## ✅ Pré-requisitos
 
 - Coolify instalado e configurado
-- Acesso ao repositório `https://github.com/fazer-ai/chatwoot`
-- Domínio configurado (ex: `atendimento.fazer.ai`)
+- Acesso ao repositório `https://github.com/conectai/chatwoot`
+- Domínio configurado (ex: `atendimento.conecta.ai`)
 
 ---
 
@@ -18,14 +18,14 @@ Guia rápido para deployar o fork customizado da Fazer.ai usando Coolify.
 
 No Coolify:
 1. **Projects** → **New Project**
-2. Nome: `Chatwoot Fazer.ai`
+2. Nome: `Chatwoot Conecta`
 
 ### 2. Adicionar Aplicação
 
 1. **Add New Resource** → **Docker Compose**
 2. Configurar:
-   - **Name**: `chatwoot-fazerai`
-   - **Git Repository**: `https://github.com/fazer-ai/chatwoot`
+   - **Name**: `chatwoot-conectai`
+   - **Git Repository**: `https://github.com/conectai/chatwoot`
    - **Branch**: `main`
    - **Docker Compose File**: `docker-compose.coolify.yaml`
 
@@ -48,7 +48,7 @@ NODE_ENV=production
 RAILS_LOG_TO_STDOUT=true
 
 # === URLs ===
-FRONTEND_URL=https://atendimento.fazer.ai
+FRONTEND_URL=https://atendimento.conecta.ai
 FORCE_SSL=true
 
 # === Email (SMTP) ===
@@ -56,21 +56,21 @@ SMTP_ADDRESS=smtp.gmail.com
 SMTP_PORT=587
 SMTP_AUTHENTICATION=plain
 SMTP_ENABLE_STARTTLS_AUTO=true
-SMTP_USERNAME=seu-email@fazer.ai
+SMTP_USERNAME=seu-email@conecta.ai
 SMTP_PASSWORD=senha-app-gmail
-SMTP_DOMAIN=fazer.ai
-MAILER_SENDER_EMAIL=atendimento@fazer.ai
+SMTP_DOMAIN=conecta.ai
+MAILER_SENDER_EMAIL=atendimento@conecta.ai
 
-# === Branding Fazer.ai ===
-INSTALLATION_NAME=Fazer.ai Atendimento
-BRAND_NAME=Fazer.ai
-BRAND_URL=https://fazer.ai
-WIDGET_BRAND_URL=https://fazer.ai
+# === Branding Conecta ===
+INSTALLATION_NAME=Conecta Atendimento
+BRAND_NAME=Conecta
+BRAND_URL=https://conecta.ai
+WIDGET_BRAND_URL=https://conecta.ai
 LOGO_THUMBNAIL=/brand-assets/logo_thumbnail.svg
 LOGO=/brand-assets/logo.svg
 LOGO_DARK=/brand-assets/logo_dark.svg
-TERMS_URL=https://fazer.ai/termos
-PRIVACY_URL=https://fazer.ai/privacidade
+TERMS_URL=https://conecta.ai/termos
+PRIVACY_URL=https://conecta.ai/privacidade
 DISPLAY_MANIFEST=false
 
 # === Integração Z-API (WhatsApp) ===
@@ -82,7 +82,7 @@ ZAPI_TOKEN=seu-token
 ACTIVE_STORAGE_SERVICE=local
 # Para S3/R2, descomentar:
 # ACTIVE_STORAGE_SERVICE=amazon
-# S3_BUCKET_NAME=chatwoot-fazer-ai
+# S3_BUCKET_NAME=chatwoot-conectai
 # AWS_ACCESS_KEY_ID=sua-key
 # AWS_SECRET_ACCESS_KEY=sua-secret
 # AWS_REGION=us-east-1
@@ -101,7 +101,7 @@ Copie o resultado e cole em `SECRET_KEY_BASE`.
 ### 5. Configurar Domínio
 
 1. No Coolify, vá em **Domains**
-2. Adicione: `atendimento.fazer.ai`
+2. Adicione: `atendimento.conecta.ai`
 3. Coolify configurará SSL automaticamente via Let's Encrypt
 
 ### 6. Deploy
@@ -164,16 +164,16 @@ No Coolify:
 
 ```bash
 # Health check
-curl https://atendimento.fazer.ai/health
+curl https://atendimento.conecta.ai/health
 
 # Deve retornar: {"status":"ok"}
 ```
 
 ### Acessar Interface
 
-1. Abra: `https://atendimento.fazer.ai`
+1. Abra: `https://atendimento.conecta.ai`
 2. Crie primeira conta (admin)
-3. Verifique se favicons Fazer.ai estão aparecendo
+3. Verifique se favicons Conecta estão aparecendo
 
 ---
 
@@ -270,20 +270,20 @@ Para backup externo, configure S3/R2 (veja variáveis acima).
 
 1. Crie nova aplicação no Coolify
 2. Branch: `develop` (ou `staging`)
-3. Domínio: `staging.atendimento.fazer.ai`
+3. Domínio: `staging.atendimento.conecta.ai`
 4. Variáveis: copiar de produção, ajustar `FRONTEND_URL`
 
 ### Produção
 
 - Branch: `main`
-- Domínio: `atendimento.fazer.ai`
+- Domínio: `atendimento.conecta.ai`
 
 ---
 
 ## 📚 Arquivos Importantes
 
 - `docker-compose.coolify.yaml` - Configuração para Coolify
-- `DEPLOY_FAZER_AI.md` - Guia geral de deploy
+- `DEPLOY_CONECTA_AI.md` - Guia geral de deploy
 - `CUSTOM_BRANDING.md` - Customização de marca
 - `.env.example` - Exemplo de variáveis
 
@@ -291,7 +291,7 @@ Para backup externo, configure S3/R2 (veja variáveis acima).
 
 ## ✅ Checklist de Deploy
 
-- [ ] Repositório `fazer-ai/chatwoot` acessível
+- [ ] Repositório `conectai/chatwoot` acessível
 - [ ] Variáveis de ambiente configuradas no Coolify
 - [ ] `SECRET_KEY_BASE` gerado (64 chars hex)
 - [ ] Senhas `POSTGRES_PASSWORD` e `REDIS_PASSWORD` fortes
@@ -300,9 +300,9 @@ Para backup externo, configure S3/R2 (veja variáveis acima).
 - [ ] Primeiro deploy executado
 - [ ] Migrações rodadas: `rails db:chatwoot_prepare`
 - [ ] Conta admin criada
-- [ ] Favicons Fazer.ai visíveis
+- [ ] Favicons Conecta visíveis
 - [ ] Health check retornando OK
-- [ ] Branding Fazer.ai aplicado
+- [ ] Branding Conecta aplicado
 
 ---
 
@@ -310,4 +310,4 @@ Para backup externo, configure S3/R2 (veja variáveis acima).
 
 - **Documentação Coolify**: https://coolify.io/docs
 - **Chatwoot Docs**: https://www.chatwoot.com/docs
-- **Fazer.ai Changelog**: https://github.com/fazer-ai/chatwoot/releases
+- **Conecta Changelog**: https://github.com/conectai/chatwoot/releases

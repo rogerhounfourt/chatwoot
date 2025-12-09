@@ -1,6 +1,6 @@
-# Deploy Chatwoot Fazer.ai via Docker
+# Deploy Chatwoot Conecta via Docker
 
-Este guia mostra como personalizar e deployar o Chatwoot customizado da Fazer.ai usando Docker.
+Este guia mostra como personalizar e deployar o Chatwoot customizado da Conecta usando Docker.
 
 ---
 
@@ -11,16 +11,16 @@ Este guia mostra como personalizar e deployar o Chatwoot customizado da Fazer.ai
 Adicione ao seu arquivo `.env`:
 
 ```bash
-# Branding Fazer.ai
-INSTALLATION_NAME="Fazer.ai Atendimento"
-BRAND_NAME="Fazer.ai"
-BRAND_URL="https://fazer.ai"
-WIDGET_BRAND_URL="https://fazer.ai"
-LOGO_THUMBNAIL="https://fazer.ai/assets/logo-512.png"
-LOGO="https://fazer.ai/assets/logo.svg"
-LOGO_DARK="https://fazer.ai/assets/logo-dark.svg"
-TERMS_URL="https://fazer.ai/termos"
-PRIVACY_URL="https://fazer.ai/privacidade"
+# Branding Conecta
+INSTALLATION_NAME="Conecta Atendimento"
+BRAND_NAME="Conecta"
+BRAND_URL="https://conecta.ai"
+WIDGET_BRAND_URL="https://conecta.ai"
+LOGO_THUMBNAIL="https://conecta.ai/assets/logo-512.png"
+LOGO="https://conecta.ai/assets/logo.svg"
+LOGO_DARK="https://conecta.ai/assets/logo-dark.svg"
+TERMS_URL="https://conecta.ai/termos"
+PRIVACY_URL="https://conecta.ai/privacidade"
 DISPLAY_MANIFEST="false"
 ```
 
@@ -30,9 +30,9 @@ Se usar imagem customizada (build próprio):
 
 ```bash
 docker exec -it chatwoot_rails_1 bash
-export INSTALLATION_NAME="Fazer.ai Atendimento"
-export BRAND_NAME="Fazer.ai"
-export LOGO="https://fazer.ai/assets/logo.svg"
+export INSTALLATION_NAME="Conecta Atendimento"
+export BRAND_NAME="Conecta"
+export LOGO="https://conecta.ai/assets/logo.svg"
 bundle exec rails branding:update
 exit
 ```
@@ -67,7 +67,7 @@ volumes:
 ### Pré-requisitos
 
 - Docker 24+ e Docker Compose
-- Git configurado com acesso ao repositório `fazer-ai/chatwoot`
+- Git configurado com acesso ao repositório `conectai/chatwoot`
 
 ### Estrutura de Arquivos
 
@@ -83,7 +83,7 @@ volumes:
 
 ```bash
 # 1. Clone o repositório customizado
-git clone https://github.com/fazer-ai/chatwoot.git
+git clone https://github.com/conectai/chatwoot.git
 cd chatwoot
 
 # 2. Configure variáveis de ambiente
@@ -107,23 +107,23 @@ RAILS_ENV=production
 NODE_ENV=production
 
 # === URLs ===
-FRONTEND_URL=https://atendimento.fazer.ai
+FRONTEND_URL=https://atendimento.conecta.ai
 FORCE_SSL=true
 
 # === Email (exemplo SMTP) ===
 SMTP_ADDRESS=smtp.gmail.com
 SMTP_PORT=587
-SMTP_USERNAME=seu-email@fazer.ai
+SMTP_USERNAME=seu-email@conecta.ai
 SMTP_PASSWORD=senha-app
-SMTP_DOMAIN=fazer.ai
-MAILER_SENDER_EMAIL=atendimento@fazer.ai
+SMTP_DOMAIN=conecta.ai
+MAILER_SENDER_EMAIL=atendimento@conecta.ai
 
 # === Branding (adicione as vars da seção 1) ===
-INSTALLATION_NAME="Fazer.ai Atendimento"
-BRAND_NAME="Fazer.ai"
+INSTALLATION_NAME="Conecta Atendimento"
+BRAND_NAME="Conecta"
 # ... (resto das vars de branding)
 
-# === Z-API (integração customizada Fazer.ai) ===
+# === Z-API (integração customizada Conecta) ===
 # Adicione suas credenciais Z-API se usar WhatsApp
 ZAPI_INSTANCE_ID=sua-instance-id
 ZAPI_TOKEN=seu-token
@@ -138,7 +138,7 @@ version: '3'
 
 services:
   rails:
-    image: ghcr.io/fazer-ai/chatwoot:latest  # Ou sua imagem customizada
+    image: ghcr.io/conectai/chatwoot:latest  # Ou sua imagem customizada
     restart: unless-stopped
     ports:
       - "3000:3000"  # Ajuste se usar nginx reverso
@@ -154,7 +154,7 @@ services:
       retries: 3
 
   sidekiq:
-    image: ghcr.io/fazer-ai/chatwoot:latest
+    image: ghcr.io/conectai/chatwoot:latest
     restart: unless-stopped
 
   postgres:
@@ -193,7 +193,7 @@ docker-compose -f docker-compose.production.yaml exec rails bundle exec rails db
 
 # 4. (Opcional) Aplicar branding via rake task
 docker-compose -f docker-compose.production.yaml exec rails \
-  env INSTALLATION_NAME="Fazer.ai" BRAND_NAME="Fazer.ai" \
+  env INSTALLATION_NAME="Conecta" BRAND_NAME="Conecta" \
   bundle exec rails branding:update
 ```
 
@@ -228,14 +228,14 @@ cp /caminho/para/favicon-*.png public/
 nano docker/Dockerfile
 
 # 3. Build
-docker build -t fazer.ai/chatwoot:v4.8.0-custom -f docker/Dockerfile .
+docker build -t conecta.ai/chatwoot:v4.8.0-custom -f docker/Dockerfile .
 
 # 4. Atualize docker-compose.yml
-# image: fazer.ai/chatwoot:v4.8.0-custom
+# image: conecta.ai/chatwoot:v4.8.0-custom
 
 # 5. Push para registry (GitHub, Docker Hub, etc.)
-docker tag fazer.ai/chatwoot:v4.8.0-custom ghcr.io/fazer-ai/chatwoot:v4.8.0-custom
-docker push ghcr.io/fazer-ai/chatwoot:v4.8.0-custom
+docker tag conecta.ai/chatwoot:v4.8.0-custom ghcr.io/conectai/chatwoot:v4.8.0-custom
+docker push ghcr.io/conectai/chatwoot:v4.8.0-custom
 ```
 
 ---
@@ -247,16 +247,16 @@ Exemplo de configuração nginx:
 ```nginx
 server {
     listen 80;
-    server_name atendimento.fazer.ai;
+    server_name atendimento.conecta.ai;
     return 301 https://$server_name$request_uri;
 }
 
 server {
     listen 443 ssl http2;
-    server_name atendimento.fazer.ai;
+    server_name atendimento.conecta.ai;
 
-    ssl_certificate /etc/letsencrypt/live/atendimento.fazer.ai/fullchain.pem;
-    ssl_certificate_key /etc/letsencrypt/live/atendimento.fazer.ai/privkey.pem;
+    ssl_certificate /etc/letsencrypt/live/atendimento.conecta.ai/fullchain.pem;
+    ssl_certificate_key /etc/letsencrypt/live/atendimento.conecta.ai/privkey.pem;
 
     client_max_body_size 50M;
 
@@ -280,7 +280,7 @@ server {
 ## 5️⃣ Atualizações
 
 ```bash
-# 1. Baixar última versão fazer-ai
+# 1. Baixar última versão conectai
 cd /caminho/para/chatwoot
 git pull origin main
 
@@ -346,4 +346,4 @@ docker-compose -f docker-compose.production.yaml logs sidekiq | tail -100
 
 - [Documentação oficial Docker](https://www.chatwoot.com/docs/self-hosted/deployment/docker)
 - [Customização de branding](./CUSTOM_BRANDING.md)
-- [Changelog Fazer.ai](https://github.com/fazer-ai/chatwoot/releases)
+- [Changelog Conecta](https://github.com/conectai/chatwoot/releases)
